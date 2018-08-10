@@ -23,7 +23,7 @@ def spawnSystems():
         chance = random.randint(1, 3)
         if chance == 1:
             print("Star cluster spawned!")
-            if determineFate() == True:
+            if determineFate():
                 # if the stars survive, then increase by a power 1 through 4, randomly
                 stars += stars**random.randint(1,4)
             else:
@@ -31,15 +31,16 @@ def spawnSystems():
                 stars -= stars//random.randint(1,5)
                 if stars <= 0:
                     stars = 1
-            print("Total Stars: " + str(stars))
+            #print("Total Stars: " + str(stars))
+            print(f'Total Stars: {stars}')
             if stars >= 100000000000:
                 galaxies = stars // 100000000
                 # nebulae form in clumps in this generator, so randomly some number between 1000 and 1999 * total number of nebulae rolled.
-                nebula = nebula*(random.randint(0, 999) + 1000)
-                print("Total galaxy formations: " + str(galaxies))
-                print("Total nebula formations: " + str(nebula))
+                nebula = nebula*(random.randint(1000, 1999))
+                print(f"Total galaxy formations: {galaxies}")
+                print(f"Total nebula formations: {nebula}")
                 # Represents billions of years.
-                print("Billions of years past: " + str(timepassed))
+                print(f"Billions of years past: {timepassed}")
                 break
         elif chance == 2:
             print("Nebulae formed!")
@@ -65,30 +66,35 @@ def determineFate():
 def filterObservableUniverse(numGalaxies):
     observable = (4 * numGalaxies) // 100
     print("The observable universe is only four percent of the actual universe.")
-    print("This means that the observable universe generated contains " + str(observable) + " galaxies.")
+    print(f"This means that the observable universe generated contains {observable} galaxies.")
     return observable
 
 # Randomly generates the number of possible habitable planets
 def filterHabitablePlanets(numObserved):
     randomPercentage = random.uniform(1, 45)
-    print("In the observable universe, roughly " + str(randomPercentage) + " percent of all planets are habitable.")
+    print(f"In the observable universe, roughly {randomPercentage} percent of all planets are habitable.")
     randomPlanets = random.randint(100000, 100000000)
     randomHabitablePlanets = int((randomPercentage * randomPlanets) // 100)
-    print("Given that there are " + str(randomPlanets) + " planets in the observable universe, this implies that there are " + str(randomHabitablePlanets) + " habitable planets in the observable universe.")
+    print(f"Given that there are {randomPlanets} planets in the observable universe, this implies that there are {randomHabitablePlanets} habitable planets in the observable universe.")
 
 # Randomly generates a name for the "home planet"
 def nameYourPlanet():
     randomstr = gen_word(random.randint(1, 10), random.randint(1,10))
     print("Luckily, we find ourselves at one of that vast number.")
-    print("The name of your home planet is " + randomstr + ".")
+    print(f"The name of your home planet is {randomstr}.")
     return randomstr
 
 # Determines the date of and location of your planet.
 def dateYourPlanet(eons, planetstr):
     systemName = gen_word(random.randint(1, 10), random.randint(1,10))
     planetAge = str(random.uniform(0.01, eons))
-    print("Your planet, " + planetstr + ", formed roughly " + planetAge + " billion years ago in the cluster named " + systemName + ".")
+    print(f"Your planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
+
+def geologicTimeScale(age):
+    print("Time on this planet is broken into four eras: ")
+    for i in range(0, 4):
+        print(gen_word(random.randint(1, 10), random.randint(1,10)))
 
 # http://pythonfiddle.com/random-word-generator/ because I'm lazy and didn't feel like figuring this out myself
 def gen_word(min, max):
@@ -113,12 +119,12 @@ def word_part(type):
         return random.sample(vowels, 1)[0]
 
 # who needs a main function lol
-print("Universe spawned at : " + time.strftime("%c"))
+systemTime = time.strftime("%c")
+print(f"Universe spawned at : {systemTime}")
 valueNumbers = spawnSystems()
 totalGalaxies, timePassed = valueNumbers
 observed = filterObservableUniverse(totalGalaxies)
 filterHabitablePlanets(observed)
 planetName = nameYourPlanet()
 planetAge = dateYourPlanet(timePassed, planetName)
-
-print("Done")
+geologicTimeScale(planetAge)
