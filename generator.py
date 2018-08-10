@@ -3,7 +3,6 @@
 
 # library imports
 import random
-import numpy as np # TODO: don't need this quite yet but will when graphics
 import string
 import time
 
