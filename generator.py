@@ -91,10 +91,22 @@ def dateYourPlanet(eons, planetstr):
     print(f"Your planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
 
-def geologicTimeScale(age):
-    print("Time on this planet is broken into four eras: ")
-    for i in range(0, 4):
-        print(gen_word(random.randint(1, 10), random.randint(1,10)))
+# Defines when a unit of time begins on planet.
+def rollForTime(age):
+    pass
+
+
+##### Utility Functions Below This Line #####
+
+# Fetches the name of an Age, an Eon, a Period, or an Epoch.
+def geologicTimeScale(s):
+    timeString = gen_word(random.randint(1, 10), random.randint(1, 10))
+    return {
+        'Age'    : f"The age of {timeString} has begun!"   ,
+        'Eon'    : f"The eon of {timeString} has begun!"   ,
+        'Period' : f"The period of {timeString} has begun!",
+        'Epoch'  : f"The epoch of {timeString} has begun!"
+    }[s]
 
 # http://pythonfiddle.com/random-word-generator/ because I'm lazy and didn't feel like figuring this out myself
 def gen_word(min, max):
@@ -103,7 +115,6 @@ def gen_word(min, max):
     for i in range(0, syllables):
         word += gen_syllable()
     return word.capitalize()
-
 def gen_syllable():
     ran = random.random()
     if ran < 0.333:
@@ -111,12 +122,13 @@ def gen_syllable():
     if ran < 0.666:
         return word_part('c') + word_part('v')
     return word_part('c') + word_part('v') + word_part('c')
-
 def word_part(type):
     if type is 'c':
         return random.sample([ch for ch in list(string.ascii_lowercase) if ch not in vowels], 1)[0]
     if type is 'v':
         return random.sample(vowels, 1)[0]
+
+##### Function Calls Below This Line #####
 
 # who needs a main function lol
 systemTime = time.strftime("%c")
@@ -127,4 +139,3 @@ observed = filterObservableUniverse(totalGalaxies)
 filterHabitablePlanets(observed)
 planetName = nameYourPlanet()
 planetAge = dateYourPlanet(timePassed, planetName)
-geologicTimeScale(planetAge)
