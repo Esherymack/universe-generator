@@ -11,7 +11,7 @@ vowels = list('aeiou')
 
 # after a universe successfully spawns, need to populate it with stars and nebulae.
 # There is always at least one star in the system.
-# Generation ends after system meets or exceeds 100 trillion stars.
+# Generation ends after system meets or exceeds 100 billion stars.
 def spawnSystems():
     stars = 1
     nebula = 0
