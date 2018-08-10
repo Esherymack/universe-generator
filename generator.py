@@ -10,17 +10,6 @@ import time
 # global vowel list for some reason
 vowels = list('aeiou')
 
-# chance to spawn universe is 1 in 4. don't know why. stop asking questions.
-def spawnUniverse():
-    while True:
-        chance = random.randint(1, 4)
-        if chance == 1:
-            print("Universe spawned!")
-            break;
-        else:
-            print("Universe did not spawn.")
-            time.sleep(1)
-
 # after a universe successfully spawns, need to populate it with stars and nebulae.
 # There is always at least one star in the system.
 # Generation ends after system meets or exceeds 100 trillion stars.
@@ -39,14 +28,13 @@ def spawnSystems():
                 # if the stars survive, then increase by a power 1 through 4, randomly
                 stars += stars**random.randint(1,4)
             else:
-                # otherwise, decrease by division. If the star count drops below 0, reset to 1.
+                # otherwise, decrease by division. If the star count somehow drops below 0, reset to 1.
                 stars -= stars//random.randint(1,5)
                 if stars <= 0:
                     stars = 1
             print("Total Stars: " + str(stars))
-            if stars >= 1000000000000000000000:
-                # there are roughly 100 billion stars per galaxy, so easy division
-                galaxies = stars // 100000000000000
+            if stars >= 100000000000:
+                galaxies = stars // 100000000
                 # nebulae form in clumps in this generator, so randomly some number between 1000 and 1999 * total number of nebulae rolled.
                 nebula = nebula*(random.randint(0, 999) + 1000)
                 print("Total galaxy formations: " + str(galaxies))
@@ -85,8 +73,8 @@ def filterObservableUniverse(numGalaxies):
 def filterHabitablePlanets(numObserved):
     randomPercentage = random.uniform(1, 45)
     print("In the observable universe, roughly " + str(randomPercentage) + " percent of all planets are habitable.")
-    randomPlanets = random.randint(100000000000, 100000000000000)
-    randomHabitablePlanets = (randomPercentage * randomPlanets) // 100
+    randomPlanets = random.randint(100000, 100000000)
+    randomHabitablePlanets = int((randomPercentage * randomPlanets) // 100)
     print("Given that there are " + str(randomPlanets) + " planets in the observable universe, this implies that there are " + str(randomHabitablePlanets) + " habitable planets in the observable universe.")
 
 # Randomly generates a name for the "home planet"
@@ -126,7 +114,7 @@ def word_part(type):
         return random.sample(vowels, 1)[0]
 
 # who needs a main function lol
-spawnUniverse()
+print("Universe spawned at : " + time.strftime("%c"))
 valueNumbers = spawnSystems()
 totalGalaxies, timePassed = valueNumbers
 observed = filterObservableUniverse(totalGalaxies)
