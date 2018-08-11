@@ -158,11 +158,10 @@ def word_part(type):
 # who needs a main function lol
 systemTime = time.strftime("%c")
 print(f"Universe spawned at : {systemTime}")
-# valueNumbers = spawnSystems()
-# totalGalaxies, timePassed = valueNumbers
-# observed = filterObservableUniverse(totalGalaxies)
-# filterHabitablePlanets(observed)
-# planetName = nameYourPlanet()
-# planetAge = dateYourPlanet(timePassed, planetName)
-# generatePlanetProfile(planetName, planetAge)
-generatePlanetBiomes()
+valueNumbers = spawnSystems()
+totalGalaxies, timePassed = valueNumbers
+observed = filterObservableUniverse(totalGalaxies)
+filterHabitablePlanets(observed)
+planetName = nameYourPlanet()
+planetAge = dateYourPlanet(timePassed, planetName)
+generatePlanetProfile(planetName, planetAge)
