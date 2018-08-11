@@ -1,6 +1,8 @@
 # Universe Generator by Madison Tibbett
 # a product of infinite boredom.
 
+# TODO: Figure out ANSII text colors in Python.
+
 # library imports
 import random
 import string
@@ -31,9 +33,8 @@ def spawnSystems():
                 stars -= stars//random.randint(1,5)
                 if stars <= 0:
                     stars = 1
-            #print("Total Stars: " + str(stars))
-            print(f'Total Stars: {stars}')
             if stars >= 100000000000:
+                print(f'Total Stars: {stars}')
                 galaxies = stars // 100000000
                 # nebulae form in clumps in this generator, so randomly some number between 1000 and 1999 * total number of nebulae rolled.
                 nebula = nebula*(random.randint(1000, 1999))
@@ -91,12 +92,15 @@ def dateYourPlanet(eons, planetstr):
     print(f"Your planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
 
-# Defines when a unit of time begins on planet.
-def rollForTime(age):
-    pass
-
 
 ##### Utility Functions Below This Line #####
+
+# Generates planet profile after planet is named.
+def generatePlanetProfile(name, age):
+    print(f"\nPlanet name is {name}.")
+    print(f"Planet age is {age} billion years.")
+
+    input("Press enter to continue...")
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
@@ -139,3 +143,4 @@ observed = filterObservableUniverse(totalGalaxies)
 filterHabitablePlanets(observed)
 planetName = nameYourPlanet()
 planetAge = dateYourPlanet(timePassed, planetName)
+generatePlanetProfile(planetName, planetAge)
