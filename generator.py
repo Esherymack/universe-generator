@@ -1,5 +1,6 @@
 # Universe Generator by Madison Tibbett
 # a product of infinite boredom.
+# "And All Was Quiet."
 
 # TODO: Figure out ANSI text colors in Python.
 
@@ -80,15 +81,15 @@ def filterHabitablePlanets(numObserved):
 
 # Randomly generates a name for the "home planet"
 def nameYourPlanet():
-    randomstr = gen_word(random.randint(1, 10), random.randint(1,10))
+    randomstr = gen_word(random.randint(1, 5), random.randint(1,7))
     print("\nLuckily, we find ourselves at one of that vast number.")
     print(f"The name of your home planet is {randomstr}.")
     return randomstr
 
 # Determines the date of and location of your planet.
 def dateYourPlanet(eons, planetstr):
-    systemName = gen_word(random.randint(1, 10), random.randint(1,10))
-    planetAge = str(random.uniform(0.01, eons))
+    systemName = gen_word(random.randint(1, 5), random.randint(1,7))
+    planetAge = str(round(random.uniform(0.01, eons), 2))
     print(f"\nYour planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
 
@@ -105,15 +106,16 @@ def generatePlanetProfile(name, age):
         generatePlanetBiomes()
     else:
         print(f"{name} is a gaseous planet.")
-        # just for testing
-        generatePlanetBiomes()
+    day_length = generateDayLength(age)
+    print(f"The length of a day on {name} is {day_length} hours.")
 
-    input("\nPress enter to continue...\n")
+    input("\nPress enter to continue...")
 
 # Determines the number and kinds of biomes the planet has.
 def generatePlanetBiomes():
     print("Because the planet has land, it has developed several biomes. They are: ")
-    numBiomes = random.randint(1, 8)
+    # must develop at least two biomes
+    numBiomes = random.randint(2, 8)
     biomes = ['tundra', 'taiga', 'temperate forest', 'scrub forest', 'grassland', 'desert', 'tropical rain forest', 'temperate rain forest']
     size = len(biomes)
     for i in range(0, numBiomes):
@@ -122,6 +124,14 @@ def generatePlanetBiomes():
         choice = random.randint(0, size)
         return_choice = biomes.pop(choice)
         print(f"Biome: {return_choice}")
+
+# Determines the length of a day on the planet.
+# A day cannot exceed 40 hours.
+# A day cannot be shorter than 15 hours.
+# (yes, the time is in time that we use on Earth)
+def generateDayLength(age):
+    day_length = round(random.uniform(15.0, 40.0), 2)
+    return day_length
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
