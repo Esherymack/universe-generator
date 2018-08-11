@@ -115,9 +115,13 @@ def generatePlanetBiomes():
     print("Because the planet has land, it has developed several biomes. They are: ")
     numBiomes = random.randint(1, 8)
     biomes = ['tundra', 'taiga', 'temperate forest', 'scrub forest', 'grassland', 'desert', 'tropical rain forest', 'temperate rain forest']
+    size = len(biomes)
     for i in range(0, numBiomes):
-        print(random.choice(biomes))
-        #TODO: prevent loop from picking same biome twice
+        # ensures that the biome selection doesn't pick the same biome twice
+        size = size - 1
+        choice = random.randint(0, size)
+        return_choice = biomes.pop(choice)
+        print(f"Biome: {return_choice}")
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
@@ -154,10 +158,11 @@ def word_part(type):
 # who needs a main function lol
 systemTime = time.strftime("%c")
 print(f"Universe spawned at : {systemTime}")
-valueNumbers = spawnSystems()
-totalGalaxies, timePassed = valueNumbers
-observed = filterObservableUniverse(totalGalaxies)
-filterHabitablePlanets(observed)
-planetName = nameYourPlanet()
-planetAge = dateYourPlanet(timePassed, planetName)
-generatePlanetProfile(planetName, planetAge)
+# valueNumbers = spawnSystems()
+# totalGalaxies, timePassed = valueNumbers
+# observed = filterObservableUniverse(totalGalaxies)
+# filterHabitablePlanets(observed)
+# planetName = nameYourPlanet()
+# planetAge = dateYourPlanet(timePassed, planetName)
+# generatePlanetProfile(planetName, planetAge)
+generatePlanetBiomes()
