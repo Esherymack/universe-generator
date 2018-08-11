@@ -34,7 +34,7 @@ def spawnSystems():
                 if stars <= 0:
                     stars = 1
             if stars >= 100000000000:
-                print(f'Total Stars: {stars}')
+                print(f'\nTotal Stars: {stars}')
                 galaxies = stars // 100000000
                 # nebulae form in clumps in this generator, so randomly some number between 1000 and 1999 * total number of nebulae rolled.
                 nebula = nebula*(random.randint(1000, 1999))
@@ -66,14 +66,14 @@ def determineFate():
 # For some reason I decided this was necessary to reduce the scale of what I'm working with
 def filterObservableUniverse(numGalaxies):
     observable = (4 * numGalaxies) // 100
-    print("The observable universe is only four percent of the actual universe.")
+    print("\nThe observable universe is only four percent of the actual universe.")
     print(f"This means that the observable universe generated contains {observable} galaxies.")
     return observable
 
 # Randomly generates the number of possible habitable planets
 def filterHabitablePlanets(numObserved):
     randomPercentage = random.uniform(1, 45)
-    print(f"In the observable universe, roughly {randomPercentage} percent of all planets are habitable.")
+    print(f"\nIn the observable universe, roughly {randomPercentage} percent of all planets are habitable.")
     randomPlanets = random.randint(100000, 100000000)
     randomHabitablePlanets = int((randomPercentage * randomPlanets) // 100)
     print(f"Given that there are {randomPlanets} planets in the observable universe, this implies that there are {randomHabitablePlanets} habitable planets in the observable universe.")
@@ -81,7 +81,7 @@ def filterHabitablePlanets(numObserved):
 # Randomly generates a name for the "home planet"
 def nameYourPlanet():
     randomstr = gen_word(random.randint(1, 10), random.randint(1,10))
-    print("Luckily, we find ourselves at one of that vast number.")
+    print("\nLuckily, we find ourselves at one of that vast number.")
     print(f"The name of your home planet is {randomstr}.")
     return randomstr
 
@@ -89,7 +89,7 @@ def nameYourPlanet():
 def dateYourPlanet(eons, planetstr):
     systemName = gen_word(random.randint(1, 10), random.randint(1,10))
     planetAge = str(random.uniform(0.01, eons))
-    print(f"Your planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
+    print(f"\nYour planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
 
 
@@ -99,8 +99,25 @@ def dateYourPlanet(eons, planetstr):
 def generatePlanetProfile(name, age):
     print(f"\nPlanet name is {name}.")
     print(f"Planet age is {age} billion years.")
+    planet_type = random.random()
+    if planet_type < 0.5:
+        print(f"{name} is a rocky planet.")
+        generatePlanetBiomes()
+    else:
+        print(f"{name} is a gaseous planet.")
+        # just for testing
+        generatePlanetBiomes()
 
-    input("Press enter to continue...")
+    input("\nPress enter to continue...\n")
+
+# Determines the number and kinds of biomes the planet has.
+def generatePlanetBiomes():
+    print("Because the planet has land, it has developed several biomes. They are: ")
+    numBiomes = random.randint(1, 8)
+    biomes = ['tundra', 'taiga', 'temperate forest', 'scrub forest', 'grassland', 'desert', 'tropical rain forest', 'temperate rain forest']
+    for i in range(0, numBiomes):
+        print(random.choice(biomes))
+        #TODO: prevent loop from picking same biome twice
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
