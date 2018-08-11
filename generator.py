@@ -8,6 +8,7 @@
 import random
 import string
 import time
+import numpy as np
 
 # global vowel list for some reason
 vowels = list('aeiou')
@@ -106,8 +107,11 @@ def generatePlanetProfile(name, age):
         generatePlanetBiomes()
     else:
         print(f"{name} is a gaseous planet.")
-    day_length = generateDayLength(age)
+    day_length = generateDayLength()
     print(f"The length of a day on {name} is {day_length} hours.")
+    year_length_hours = generateYearLength()
+    year_length_days = round(year_length_hours / day_length, 2)
+    print(f"Given that a year is {year_length_hours} hours long, there are {year_length_days} days in a year on {name}.")
 
     input("\nPress enter to continue...")
 
@@ -125,13 +129,64 @@ def generatePlanetBiomes():
         return_choice = biomes.pop(choice)
         print(f"Biome: {return_choice}")
 
-# Determines the length of a day on the planet.
-# A day cannot exceed 40 hours.
-# A day cannot be shorter than 15 hours.
-# (yes, the time is in time that we use on Earth)
-def generateDayLength(age):
-    day_length = round(random.uniform(15.0, 40.0), 2)
-    return day_length
+# Determines the length of a day on a planet.
+# I really didn't want to make up arbitrary mass values, so I'm just randomly generating this
+def generateDayLength():
+    return round(random.uniform(15.0, 40.0), 2)
+
+# Determines the length of a year on the planet.
+# Generates time based on distance from home star.
+# See this article: http://www.planetarybiology.com/calculating_habitable_zone.html
+# (yes, these measurements come in Earth Units(TM) for our humanly convenience)
+def generateYearLength():
+    # get the class of the home star
+    starClass = generateStarClass()
+    print(f"The class of the host star is {starClass}.")
+    # arbitrary but some reasoning involved to get the luminosity of the star.
+    luminosity = averageLuminosity(starClass)
+    # simple, divide sqrt luminosity by 1.1 for inner boundary and sqrt luminosity by 0.53 for outer
+    inner_boundary = round(np.sqrt(luminosity / 1.1), 2)
+    outer_boundary = round(np.sqrt(luminosity / 0.53), 2)
+    # pick a random spot in that range for planet distance from star
+    planet_distance = round(random.uniform(inner_boundary, outer_boundary), 2)
+    print(f"The planet is located {planet_distance} AUs away from the host star.")
+    # use Kepler's third law to calculate the length of a year
+    # T^2 = 4pi^2 / G(Mstar + Mplanet)(R^3)
+    # where T is the time period, G is the Newtonian gravitational constant, M represents the mass, and R is the semi-major axis of the elliptical orbit
+    # G is apparently 6.67x10^-11 newton meters squared per kilogram squared, so we're using that (0.0000000000667)
+    # We're also assuming that the planet's mass is negligible compared to the host star, for ease.
+    lengthYearSquared = (4*np.pi**2)/(0.0000000000667*averageMass(starClass))*planet_distance**3
+    lengthYear = round(np.sqrt(lengthYearSquared), 2)
+    return round(lengthYear/336, 2)
+
+
+# Generates the class of the home star
+def generateStarClass():
+    # a star can be class O, B, A, F, G, K, or M
+    classChoice = ['O', 'B', 'A', 'F', 'G', 'K', 'M']
+    return random.choice(classChoice)
+# Retrieves average luminosity of the home star
+def averageLuminosity(sc):
+    return {
+        'O' : 1400000 + random.uniform(-9999, 9999),
+        'B' : 20000   + random.uniform(-999, 999)  ,
+        'A' : 80      + random.uniform(-9, 9)      ,
+        'F' : 6       + random.uniform(-9, 9)      ,
+        'G' : 1.2     + random.uniform(-0.9, 0.9)  ,
+        'K' : 0.4     + random.uniform(-0.09, 0.09),
+        'M' : 0.04    + random.uniform(-0.009, 0.009)
+    }[sc]
+# Retrieves average mass of home star
+def averageMass(sc):
+    return {
+        'O' : 60,
+        'B' : 18,
+        'A' : 3.2,
+        'F' : 1.7,
+        'G' : 1.1,
+        'K' : 0.8,
+        'M' : 0.3
+    }[sc]
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
