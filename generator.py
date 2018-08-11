@@ -1,7 +1,7 @@
 # Universe Generator by Madison Tibbett
 # a product of infinite boredom.
 
-# TODO: Figure out ANSII text colors in Python.
+# TODO: Figure out ANSI text colors in Python.
 
 # library imports
 import random
