@@ -101,12 +101,16 @@ def dateYourPlanet(eons, planetstr):
 def generatePlanetProfile(name, age):
     print(f"\nPlanet name is {name}.")
     print(f"Planet age is {age} billion years.")
+    description = getDescriptor()
+    description = str(description)[1:-1]
     planet_type = random.random()
     if planet_type < 0.5:
         print(f"{name} is a rocky planet.")
         generatePlanetBiomes()
+        print(f"The terrain of {name} is {description}.")
     else:
         print(f"{name} is a gaseous planet.")
+        print(f"The plasma oceans of {name} are {description}.")
     day_length = generateDayLength()
     print(f"The length of a day on {name} is {day_length} hours.")
     year_length_hours = generateYearLength()
@@ -139,9 +143,10 @@ def generateDayLength():
 # See this article: http://www.planetarybiology.com/calculating_habitable_zone.html
 # (yes, these measurements come in Earth Units(TM) for our humanly convenience)
 def generateYearLength():
-    # get the class of the home star
+    # get the class and name of the home star
     starClass = generateStarClass()
-    print(f"The class of the host star is {starClass}.")
+    starName = gen_word(random.randint(1, 5), random.randint(1,7))
+    print(f"The class of the host star, {starName}, is {starClass}.")
     # arbitrary but some reasoning involved to get the luminosity of the star.
     luminosity = averageLuminosity(starClass)
     # simple, divide sqrt luminosity by 1.1 for inner boundary and sqrt luminosity by 0.53 for outer
@@ -149,7 +154,7 @@ def generateYearLength():
     outer_boundary = round(np.sqrt(luminosity / 0.53), 2)
     # pick a random spot in that range for planet distance from star
     planet_distance = round(random.uniform(inner_boundary, outer_boundary), 2)
-    print(f"The planet is located {planet_distance} AUs away from the host star.")
+    print(f"The planet is located {planet_distance} AUs away from {starName}.")
     # use Kepler's third law to calculate the length of a year
     # T^2 = 4pi^2 / G(Mstar + Mplanet)(R^3)
     # where T is the time period, G is the Newtonian gravitational constant, M represents the mass, and R is the semi-major axis of the elliptical orbit
@@ -197,6 +202,19 @@ def geologicTimeScale(s):
         'Period' : f"The period of {timeString} has begun!",
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
+
+# Retrieve descriptive adjective for landscape from adjectives.dat
+def getDescriptor():
+    numDescriptors = random.randint(2, 4)
+    adjectives = open('adjectives.dat').read().splitlines()
+    size = len(adjectives)
+    description_list = []
+    for i in range(0, numDescriptors):
+        size = size - 1
+        descriptor = random.randint(0, size)
+        return_descriptor = adjectives.pop(descriptor)
+        description_list.append(return_descriptor)
+    return description_list
 
 # http://pythonfiddle.com/random-word-generator/ because I'm lazy and didn't feel like figuring this out myself
 def gen_word(min, max):
