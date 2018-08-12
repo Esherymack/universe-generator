@@ -74,8 +74,8 @@ def filterObservableUniverse(numGalaxies):
 
 # Randomly generates the number of possible habitable planets
 def filterHabitablePlanets(numObserved):
-    randomPercentage = random.uniform(1, 45)
-    print(f"\nIn the observable universe, roughly {randomPercentage} percent of all planets are habitable.")
+    randomPercentage = round(random.uniform(1, 45), 2)
+    print(f"\nIn the observable universe, roughly {randomPercentage}% of all planets are habitable.")
     randomPlanets = random.randint(100000, 100000000)
     randomHabitablePlanets = int((randomPercentage * randomPlanets) // 100)
     print(f"Given that there are {randomPlanets} planets in the observable universe, this implies that there are {randomHabitablePlanets} habitable planets in the observable universe.")
