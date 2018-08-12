@@ -154,7 +154,7 @@ def generateYearLength():
     # T^2 = 4pi^2 / G(Mstar + Mplanet)(R^3)
     # where T is the time period, G is the Newtonian gravitational constant, M represents the mass, and R is the semi-major axis of the elliptical orbit
     # G is apparently 6.67x10^-11 newton meters squared per kilogram squared, so we're using that (0.0000000000667)
-    # We're also assuming that the planet's mass is negligible compared to the host star, for ease.
+    # We're also assuming that the planet's mass is negligible compared to the host star (as are most), for ease.
     lengthYearSquared = (4*np.pi**2)/(0.0000000000667*averageMass(starClass))*planet_distance**3
     lengthYear = round(np.sqrt(lengthYearSquared), 2)
     return round(lengthYear/336, 2)
@@ -168,13 +168,13 @@ def generateStarClass():
 # Retrieves average luminosity of the home star
 def averageLuminosity(sc):
     return {
-        'O' : 1400000 + random.uniform(-9999, 9999),
-        'B' : 20000   + random.uniform(-999, 999)  ,
-        'A' : 80      + random.uniform(-9, 9)      ,
-        'F' : 6       + random.uniform(-9, 9)      ,
-        'G' : 1.2     + random.uniform(-0.9, 0.9)  ,
-        'K' : 0.4     + random.uniform(-0.09, 0.09),
-        'M' : 0.04    + random.uniform(-0.009, 0.009)
+        'O' : 1400000 + random.uniform(-999, 999),
+        'B' : 20000   + random.uniform(-99, 99)  ,
+        'A' : 80      + random.uniform(-4, 4)      ,
+        'F' : 6       + random.uniform(-2, 2)      ,
+        'G' : 1.2     + random.uniform(-0.09, 0.09)  ,
+        'K' : 0.4     + random.uniform(-0.04, 0.04),
+        'M' : 0.04    + random.uniform(-0.0009, 0.0009)
     }[sc]
 # Retrieves average mass of home star
 def averageMass(sc):
