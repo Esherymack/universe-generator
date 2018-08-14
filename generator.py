@@ -160,9 +160,10 @@ def generateYearLength():
     # where T is the time period, G is the Newtonian gravitational constant, M represents the mass, and R is the semi-major axis of the elliptical orbit
     # G is apparently 6.67x10^-11 newton meters squared per kilogram squared, so we're using that (0.0000000000667)
     # We're also assuming that the planet's mass is negligible compared to the host star (as are most), for ease.
-    lengthYearSquared = (4*np.pi**2)/(0.0000000000667*averageMass(starClass))*planet_distance**3
-    lengthYear = round(np.sqrt(lengthYearSquared), 2)
-    return round(lengthYear/336, 2)
+    lengthYearSquared = round(np.sqrt((4*np.pi**2)/(0.0000000000667*averageMass(starClass))*planet_distance**3), 2)
+    # For some reason, I did this such that the universe assumes a standard year is 336 days (12 months of exactly 28 days each).
+    # This is why I divide by 336 here.
+    return round(lengthYearSquared/336, 2)
 
 
 # Generates the class of the home star
