@@ -116,8 +116,8 @@ def generatePlanetProfile(name, age):
     year_length_hours = generateYearLength()
     year_length_days = round(year_length_hours / day_length, 2)
     print(f"Given that a year is {year_length_hours} hours long, there are {year_length_days} days in a year on {name}.")
-
     input("\nPress enter to continue...")
+    return (year_length_days, day_length)
 
 # Determines the number and kinds of biomes the planet has.
 def generatePlanetBiomes():
@@ -174,8 +174,8 @@ def generateStarClass():
 # Retrieves average luminosity of the home star
 def averageLuminosity(sc):
     return {
-        'O' : 1400000 + random.uniform(-999, 999),
-        'B' : 20000   + random.uniform(-99, 99)  ,
+        'O' : 1400000 + random.uniform(-9999, 999),
+        'B' : 20000   + random.uniform(-999, 99)  ,
         'A' : 80      + random.uniform(-4, 4)      ,
         'F' : 6       + random.uniform(-2, 2)      ,
         'G' : 1.2     + random.uniform(-0.09, 0.09)  ,
@@ -193,6 +193,19 @@ def averageMass(sc):
         'K' : 0.8,
         'M' : 0.3
     }[sc]
+
+# Runs time on planet from formation to destruction.
+def runTime(yearLength, dayLength, age):
+    # print(f"\nThe length of a year is {yearLength} days.")
+    # print(f"There are {dayLength} hours in a day.")
+    counter = 0
+    daysInYear = yearLength
+    civilDay = int(dayLength)
+    planetAge = int(float(age)) + 1000000000
+    for i in range (0, planetAge):
+        print(f"Year {counter} has begun!")
+        time.sleep(1.0)
+        counter += 1
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
@@ -248,4 +261,6 @@ observed = filterObservableUniverse(totalGalaxies)
 filterHabitablePlanets(observed)
 planetName = nameYourPlanet()
 planetAge = dateYourPlanet(timePassed, planetName)
-generatePlanetProfile(planetName, planetAge)
+timeCounters = generatePlanetProfile(planetName, planetAge)
+yearLength, dayLength = timeCounters
+runTime(yearLength, dayLength, planetAge)
