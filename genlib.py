@@ -117,7 +117,7 @@ def generatePlanetBiomes():
 # Retrieve descriptive adjective for landscape from adjectives.dat
 def getDescriptor():
     numDescriptors = random.randint(2, 4)
-    adjectives = open('adjectives.dat')
+    adjectives = open('planet_adjectives.dat')
     adjectivesList = adjectives.read().splitlines()
     size = len(adjectivesList)
     description_list = []
