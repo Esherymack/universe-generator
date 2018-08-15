@@ -225,7 +225,28 @@ def runTime(yearLength, dayLength, age, name):
     # each one will have a helper function below because different things can happen in each one.
     # so first will randomly generate the planet's five primary ages:
     planetGeologicAges = generateAgeNames()
+    planetGeologicAges = ', '.join(planetGeologicAges)
     print(f"The five ages of {name} are: {planetGeologicAges}")
+
+# Generates events of first Primary Age
+def generateFirstAge():
+    pass
+
+# Generates events of second Primary Age
+def generateSecondAge():
+    pass
+
+# Generates events of third Primary Age
+def generateThirdAge():
+    pass
+
+# Generates events of fourth Primary Age
+def generateFourthAge():
+    pass
+
+# Generates events of fifth Primary Age
+def generateFifthAge():
+    pass
 
 # Generates five age names
 def generateAgeNames():
@@ -233,9 +254,8 @@ def generateAgeNames():
     agesList = []
     for i in range(0, numberOfAges):
         ageStr = gen_word(random.randint(1, 5), random.randint(1,7))
-        agesList += ageStr
+        agesList.append(ageStr)
     return agesList
-
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
     timeString = gen_word(random.randint(1, 10), random.randint(1, 10))
@@ -245,6 +265,31 @@ def geologicTimeScale(s):
         'Period' : f"The period of {timeString} has begun!",
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
+# End of the Planet's Life
+def endOfPlanet():
+    pass
+
+# Generates primary species ("player species")
+def generatePrimarySpecies():
+    pass
+# Generates profie of primary species
+def generateSpeciesProfile():
+    pass
+# Triggers evolution
+def triggerEvolve():
+    pass
+
+# Generates non-described species
+def generateNonDescribedSpecies():
+    pass
+
+# Generates random alternate species at given times with random descriptions
+def generateRandomSpecies():
+    pass
+
+# Generates extinction events
+def generateExtinctionEvent():
+    pass
 
 # Retrieve descriptive adjective for landscape from adjectives.dat
 def getDescriptor():
