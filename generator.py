@@ -8,7 +8,23 @@
 import random
 import string
 import time
+import sys
 import numpy as np
+
+# class Logger allows a log to be generated as the console prints as well
+# stolen from here: https://stackoverflow.com/questions/14906764/how-to-redirect-stdout-to-both-file-and-console-with-scripting
+class Logger(object):
+    def __init__(self):
+        self.terminal = sys.stdout
+        self.log = open("genlog.txt", "w")
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+    def flush(self):
+        # flush method is for python 3 compatibility
+        # handles flush command by doing Nothing
+        # extra behaviour may be specified here
+        pass
 
 # global vowel list for some reason
 vowels = list('aeiou')
@@ -327,6 +343,10 @@ def word_part(type):
 ##### Function Calls Below This Line #####
 
 # who needs a main function lol
+
+# start log now
+sys.stdout = Logger()
+
 systemTime = time.strftime("%c")
 print(f"Universe spawned at : {systemTime}")
 valueNumbers = spawnSystems()
@@ -338,3 +358,13 @@ planetAge = dateYourPlanet(timePassed, planetName)
 timeCounters = generatePlanetProfile(planetName, planetAge)
 yearLength, dayLength = timeCounters
 runTime(yearLength, dayLength, planetAge, planetName)
+
+time.sleep(1.0)
+stopTime = time.strftime("%c")
+print(f"\nSimulation ended at : {stopTime}")
+time.sleep(1.0)
+
+print(f"And all was silent.")
+input("\nPress enter to continue...")
+time.sleep(1.0)
+print("\nLog written.")
