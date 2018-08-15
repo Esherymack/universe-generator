@@ -31,6 +31,7 @@ vowels = list('aeiou')
 # global round precision
 roundPrecision = 2
 
+##### Universe Spawn #####
 # after a universe successfully spawns, need to populate it with stars and nebulae.
 # There is always at least one star in the system.
 # Generation ends after system meets or exceeds 100 billion stars.
@@ -116,6 +117,7 @@ def dateYourPlanet(eons, planetstr):
 
 
 ##### Utility Functions Below This Line #####
+# ^ lol i stopped caring
 
 # Generates planet profile after planet is named.
 def generatePlanetProfile(name, age):
@@ -367,4 +369,3 @@ time.sleep(1.0)
 print(f"And all was silent.")
 input("\nPress enter to continue...")
 time.sleep(1.0)
-print("\nLog written.")
