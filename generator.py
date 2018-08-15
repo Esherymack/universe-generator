@@ -138,27 +138,30 @@ def generatePlanetProfile(name, age):
     year_length_hours = generateYearLength()
     year_length_days = round(year_length_hours / day_length, roundPrecision)
     print(f"Given that a year is {year_length_hours} hours long, there are {year_length_days} days in a year on {name}.")
-    input("\nPress enter to continue...")
+    input("\nPress enter to continue...\n")
     return (year_length_days, day_length)
 
 # Determines the number and kinds of biomes the planet has.
 def generatePlanetBiomes():
     print("Because the planet has land, it has developed several biomes. They are: ")
     # must develop at least two biomes
-    numBiomes = random.randint(2, 8)
-    biomes = ['tundra', 'taiga', 'temperate forest', 'scrub forest', 'grassland', 'desert', 'tropical rain forest', 'temperate rain forest']
-    size = len(biomes)
+    numBiomes = random.randint(2, 22)
+    # biomes.dat contains biomes as outlined in the Ecosystems of the World, ed. Goodall (1974)
+    biomes = open('biomes.dat')
+    biomeList = biomes.read().splitlines()
+    size = len(biomeList)
     for i in range(0, numBiomes):
         # ensures that the biome selection doesn't pick the same biome twice
         size = size - 1
         choice = random.randint(0, size)
-        return_choice = biomes.pop(choice)
+        return_choice = biomeList.pop(choice)
         print(f"Biome: {return_choice}")
+    biomes.close()
 
 # Determines the length of a day on a planet.
 # I really didn't want to make up arbitrary mass values, so I'm just randomly generating this
 def generateDayLength():
-    return round(random.uniform(15.0, 40.0), roundPrecision)
+    return round(random.uniform(5.0, 50.0), roundPrecision)
 
 # Determines the length of a year on the planet.
 # Generates time based on distance from home star.
@@ -312,14 +315,16 @@ def generateExtinctionEvent():
 # Retrieve descriptive adjective for landscape from adjectives.dat
 def getDescriptor():
     numDescriptors = random.randint(2, 4)
-    adjectives = open('adjectives.dat').read().splitlines()
-    size = len(adjectives)
+    adjectives = open('adjectives.dat')
+    adjectivesList = adjectives.read().splitlines()
+    size = len(adjectivesList)
     description_list = []
     for i in range(0, numDescriptors):
         size = size - 1
         descriptor = random.randint(0, size)
-        return_descriptor = adjectives.pop(descriptor)
+        return_descriptor = adjectivesList.pop(descriptor)
         description_list.append(return_descriptor)
+    adjectives.close()
     return description_list
 
 # http://pythonfiddle.com/random-word-generator/ because I'm lazy and didn't feel like figuring this out myself
