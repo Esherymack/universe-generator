@@ -145,8 +145,10 @@ def generateDayLength():
 def generateYearLength():
     # get the class and name of the home star
     starClass = generateStarClass()
+    starColor = getColor(starClass)
     starName = gen_word(random.randint(1, 5), random.randint(1,7))
     print(f"The class of the host star, {starName}, is {starClass}.")
+    print(f"{starName} is {starColor} in color. How beautiful it is!")
     # arbitrary but some reasoning involved to get the luminosity of the star.
     luminosity = averageLuminosity(starClass)
     # simple, divide sqrt luminosity by 1.1 for inner boundary and sqrt luminosity by 0.53 for outer
@@ -192,6 +194,17 @@ def averageMass(sc):
         'G' : 1.1,
         'K' : 0.8,
         'M' : 0.3
+    }[sc]
+# Retrieves color of home star
+def getColor(sc):
+    return {
+        'O' : 'Blue',
+        'B' : 'Blue',
+        'A' : 'Blue',
+        'F' : 'White',
+        'G' : 'Yellow',
+        'K' : 'Orange',
+        'M' : 'Red'
     }[sc]
 
 # Runs time on planet from formation to destruction.
