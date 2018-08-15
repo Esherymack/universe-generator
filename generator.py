@@ -12,6 +12,8 @@ import numpy as np
 
 # global vowel list for some reason
 vowels = list('aeiou')
+# global round precision
+roundPrecision = 2
 
 # after a universe successfully spawns, need to populate it with stars and nebulae.
 # There is always at least one star in the system.
@@ -35,9 +37,11 @@ def spawnSystems():
                 stars -= stars//random.randint(1,5)
                 if stars <= 0:
                     stars = 1
-            if stars >= 100000000000:
+            maxStars = 10e+11
+            galaxyDivisor = 100000000
+            if stars >= maxStars:
                 print(f'\nTotal Stars: {stars}')
-                galaxies = stars // 100000000
+                galaxies = stars // galaxyDivisor
                 # nebulae form in clumps in this generator, so randomly some number between 1000 and 1999 * total number of nebulae rolled.
                 nebula = nebula*(random.randint(1000, 1999))
                 print(f"Total galaxy formations: {galaxies}")
@@ -74,7 +78,7 @@ def filterObservableUniverse(numGalaxies):
 
 # Randomly generates the number of possible habitable planets
 def filterHabitablePlanets(numObserved):
-    randomPercentage = round(random.uniform(1, 45), 2)
+    randomPercentage = round(random.uniform(1, 45), roundPrecision)
     print(f"\nIn the observable universe, roughly {randomPercentage}% of all planets are habitable.")
     randomPlanets = random.randint(100000, 100000000)
     randomHabitablePlanets = int((randomPercentage * randomPlanets) // 100)
@@ -90,7 +94,7 @@ def nameYourPlanet():
 # Determines the date of and location of your planet.
 def dateYourPlanet(eons, planetstr):
     systemName = gen_word(random.randint(1, 5), random.randint(1,7))
-    planetAge = str(round(random.uniform(0.01, eons), 2))
+    planetAge = str(round(random.uniform(0.01, eons), roundPrecision))
     print(f"\nYour planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     return planetAge
 
@@ -102,7 +106,7 @@ def generatePlanetProfile(name, age):
     print(f"\nPlanet name is {name}.")
     print(f"Planet age is {age} billion years.")
     description = getDescriptor()
-    description = str(description)[1:-1]
+    description = ', '.join(description)
     planet_type = random.random()
     if planet_type < 0.5:
         print(f"{name} is a rocky planet.")
@@ -114,7 +118,7 @@ def generatePlanetProfile(name, age):
     day_length = generateDayLength()
     print(f"The length of a day on {name} is {day_length} hours.")
     year_length_hours = generateYearLength()
-    year_length_days = round(year_length_hours / day_length, 2)
+    year_length_days = round(year_length_hours / day_length, roundPrecision)
     print(f"Given that a year is {year_length_hours} hours long, there are {year_length_days} days in a year on {name}.")
     input("\nPress enter to continue...")
     return (year_length_days, day_length)
@@ -136,7 +140,7 @@ def generatePlanetBiomes():
 # Determines the length of a day on a planet.
 # I really didn't want to make up arbitrary mass values, so I'm just randomly generating this
 def generateDayLength():
-    return round(random.uniform(15.0, 40.0), 2)
+    return round(random.uniform(15.0, 40.0), roundPrecision)
 
 # Determines the length of a year on the planet.
 # Generates time based on distance from home star.
@@ -152,20 +156,22 @@ def generateYearLength():
     # arbitrary but some reasoning involved to get the luminosity of the star.
     luminosity = averageLuminosity(starClass)
     # simple, divide sqrt luminosity by 1.1 for inner boundary and sqrt luminosity by 0.53 for outer
-    inner_boundary = round(np.sqrt(luminosity / 1.1), 2)
-    outer_boundary = round(np.sqrt(luminosity / 0.53), 2)
+    inner_boundary = round(np.sqrt(luminosity / 1.1), roundPrecision)
+    outer_boundary = round(np.sqrt(luminosity / 0.53), roundPrecision)
     # pick a random spot in that range for planet distance from star
-    planet_distance = round(random.uniform(inner_boundary, outer_boundary), 2)
+    planet_distance = round(random.uniform(inner_boundary, outer_boundary), roundPrecision)
     print(f"The planet is located {planet_distance} AUs away from {starName}.")
     # use Kepler's third law to calculate the length of a year
     # T^2 = 4pi^2 / G(Mstar + Mplanet)(R^3)
     # where T is the time period, G is the Newtonian gravitational constant, M represents the mass, and R is the semi-major axis of the elliptical orbit
-    # G is apparently 6.67x10^-11 newton meters squared per kilogram squared, so we're using that (0.0000000000667)
+    # G is apparently 6.67x10^-11 newton meters squared per kilogram squared, so we're using that (0.0000000000667, or 6.67e-11 for simplicity)
     # We're also assuming that the planet's mass is negligible compared to the host star (as are most), for ease.
-    lengthYearSquared = round(np.sqrt((4*np.pi**2)/(0.0000000000667*averageMass(starClass))*planet_distance**3), 2)
+    newtonianGravitationConstant = 6.67e-11
+    lengthYearSquared = round(np.sqrt((4*np.pi**2)/(newtonianGravitationConstant*averageMass(starClass))*planet_distance**3), roundPrecision)
     # For some reason, I did this such that the universe assumes a standard year is 336 days (12 months of exactly 28 days each).
     # This is why I divide by 336 here.
-    return round(lengthYearSquared/336, 2)
+    standardYearLength = 336 # days
+    return round(lengthYearSquared/standardYearLength, roundPrecision)
 
 
 # Generates the class of the home star
@@ -208,17 +214,27 @@ def getColor(sc):
     }[sc]
 
 # Runs time on planet from formation to destruction.
-def runTime(yearLength, dayLength, age):
+def runTime(yearLength, dayLength, age, name):
     # print(f"\nThe length of a year is {yearLength} days.")
     # print(f"There are {dayLength} hours in a day.")
     counter = 0
-    daysInYear = yearLength
     civilDay = int(dayLength)
-    planetAge = int(float(age)) + 1000000000
-    for i in range (0, planetAge):
-        print(f"Year {counter} has begun!")
-        time.sleep(1.0)
-        counter += 1
+    planetAge = int(float(age))
+    # how the fuck do i want to do this hhhhhh
+    # let's start basic: there are five main stages in every planet's time scale
+    # each one will have a helper function below because different things can happen in each one.
+    # so first will randomly generate the planet's five primary ages:
+    planetGeologicAges = generateAgeNames()
+    print(f"The five ages of {name} are: {planetGeologicAges}")
+
+# Generates five age names
+def generateAgeNames():
+    numberOfAges = 5
+    agesList = []
+    for i in range(0, numberOfAges):
+        ageStr = gen_word(random.randint(1, 5), random.randint(1,7))
+        agesList += ageStr
+    return agesList
 
 # Fetches the name of an Age, an Eon, a Period, or an Epoch.
 def geologicTimeScale(s):
@@ -276,4 +292,4 @@ planetName = nameYourPlanet()
 planetAge = dateYourPlanet(timePassed, planetName)
 timeCounters = generatePlanetProfile(planetName, planetAge)
 yearLength, dayLength = timeCounters
-runTime(yearLength, dayLength, planetAge)
+runTime(yearLength, dayLength, planetAge, planetName)
