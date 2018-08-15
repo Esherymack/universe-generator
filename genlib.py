@@ -188,7 +188,6 @@ def geologicTimeScale(s):
         'Period' : f"The period of {timeString} has begun!",
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
-
 # Generates events of first Primary Age
 def generateFirstAge():
     pass

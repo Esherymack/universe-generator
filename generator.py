@@ -102,7 +102,6 @@ def runTime(yearLength, dayLength, age, name):
 
 ##### Function Calls Below This Line #####
 # who needs a main function lol
-
 # start log now
 sys.stdout = log_script.Logger()
 
