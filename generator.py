@@ -366,6 +366,5 @@ stopTime = time.strftime("%c")
 print(f"\nSimulation ended at : {stopTime}")
 time.sleep(1.0)
 
-print(f"And all was silent.")
-input("\nPress enter to continue...")
-time.sleep(1.0)
+print(f"\nAnd all was silent.\n")
+time.sleep(2.0)
