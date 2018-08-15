@@ -101,7 +101,6 @@ def runTime(yearLength, dayLength, age, name):
     print(f"The five ages of {name} are: {planetGeologicAges}")
 
 ##### Function Calls Below This Line #####
-
 # who needs a main function lol
 
 # start log now
