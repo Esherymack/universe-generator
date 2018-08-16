@@ -115,7 +115,7 @@ def generatePlanetBiomes():
         print(f"Biome: {return_choice}")
     biomes.close()
 # Retrieve descriptive adjective for landscape from adjectives.dat
-def getDescriptor():
+def getLandDescriptor():
     numDescriptors = random.randint(2, 4)
     adjectives = open('planet_adjectives.dat')
     adjectivesList = adjectives.read().splitlines()
@@ -128,6 +128,12 @@ def getDescriptor():
         description_list.append(return_descriptor)
     adjectives.close()
     return description_list
+# Retrieve descriptive adjective for creature
+def getCreatureDescriptor():
+    pass
+# Retrieve descriptive adjective for personality
+def getCreaturePersonality():
+    pass
 
 ##### Star Functions #####
 
