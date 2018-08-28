@@ -228,6 +228,22 @@ def generateSpeciesProfile():
 def triggerEvolve():
     pass
 
+# Generates "player"
+def generatePlayer():
+    pass
+# Generates "player" appearance
+def generatePlayerAppearance():
+    pass
+# Generates "player" personality
+def generatePlayerPersonality():
+    pass
+# Generates "player" relationships
+def generatePlayerRelationships():
+    pass
+# Generates "player" religion
+def generatePlayerReligion():
+    pass
+
 # Generates non-described species
 def generateNonDescribedSpecies():
     pass
