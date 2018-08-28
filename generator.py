@@ -87,18 +87,19 @@ def generatePlanetProfile(name, age):
 
 # Runs time on planet from formation to destruction.
 def runTime(yearLength, dayLength, age, name):
-    # print(f"\nThe length of a year is {yearLength} days.")
-    # print(f"There are {dayLength} hours in a day.")
     counter = 0
     civilDay = int(dayLength)
     planetAge = int(float(age))
-    # how the fuck do i want to do this hhhhhh
     # let's start basic: there are five main stages in every planet's time scale
     # each one will have a helper function below because different things can happen in each one.
     # so first will randomly generate the planet's five primary ages:
     planetGeologicAges = genlib.generateAgeNames()
-    planetGeologicAges = ', '.join(planetGeologicAges)
-    print(f"The five ages of {name} are: {planetGeologicAges}")
+    # next the primary ages are called.
+    firstAgeLength = genlib.generateFirstAge(planetGeologicAges, planetAge)
+    secondAgeLength = genlib.generateSecondAge(planetGeologicAges, planetAge, firstAgeLength)
+    thirdAgeLength = genlib.generateThirdAge(planetGeologicAges, planetAge, secondAgeLength)
+    fourthAgeLength = genlib.generateFourthAge(planetGeologicAges, planetAge, thirdAgeLength)
+    genlib.generateFifthAge(planetGeologicAges, planetAge, fourthAgeLength)
 
 ##### Function Calls Below This Line #####
 # who needs a main function lol

@@ -195,28 +195,84 @@ def geologicTimeScale(s):
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
 # Generates events of first Primary Age
-def generateFirstAge():
-    pass
+# During the first primary age, there is a very very low chance of life spawning - 0.000001% (here listed as 1e-6)
+# this is because the planet has really just formed.
+def generateFirstAge(planetGeologicAges, planetAge):
+    # there are always at least 1 continents and 1 oceans
+    continents = 1
+    oceans = 1
+    firstAge = planetGeologicAges[0]
+    print(f"The first age, {firstAge}, has begun!")
+    lengthOfAge = round(planetAge / 5, roundPrecision)
+    remainingTime = round(planetAge - lengthOfAge, roundPrecision)
+    print(f"The length of {firstAge} is {lengthOfAge} billion years.")
+    while lengthOfAge > 0.0:
+        if(chanceOfLifeRoll() <= 1e-6):
+            print("Primitive life spawned!")
+            generateRandomSpecies("primitive")
+        timePasses = random.randint(0, 1)
+        if timePasses == 0:
+            print("Time passes.")
+            lengthOfAge -= lengthOfAge - random.uniform(0, lengthOfAge)
+        if timePasses == 1:
+            print("The world shifts.")
+            continents += 1
+            oceans += 1
+        time.sleep(1.0)
+    print(f"Total Continents Formed: {continents}.")
+    print(f"Total Oceans Formed: {oceans}.")
+    return remainingTime
 
 # Generates events of second Primary Age
-def generateSecondAge():
-    pass
+def generateSecondAge(planetGeologicAges, planetAge, lastAgeLength):
+    secondAge = planetGeologicAges[1]
+    print(f"The second age, {secondAge}, has begun!")
+    planet_newAge = planetAge - lastAgeLength
+    lengthOfAge = round(planet_newAge / 4, roundPrecision)
+    remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
+    print(f"The length of {secondAge} is {lengthOfAge} billion years.")
+    time.sleep(1.0)
+    return remainingTime
 
 # Generates events of third Primary Age
-def generateThirdAge():
-    pass
+def generateThirdAge(planetGeologicAges, planetAge, lastAgeLength):
+    thirdAge = planetGeologicAges[2]
+    print(f"The third age, {thirdAge}, has begun!")
+    planet_newAge = planetAge - lastAgeLength
+    lengthOfAge = round(planet_newAge / 3, roundPrecision)
+    remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
+    print(f"The length of {thirdAge} is {lengthOfAge} billion years.")
+    time.sleep(1.0)
+    return remainingTime
 
 # Generates events of fourth Primary Age
-def generateFourthAge():
-    pass
+def generateFourthAge(planetGeologicAges, planetAge, lastAgeLength):
+    fourthAge = planetGeologicAges[3]
+    print(f"The fourth age, {fourthAge}, has begun!")
+    planet_newAge = planetAge - lastAgeLength
+    lengthOfAge = round(planet_newAge / 2, roundPrecision)
+    remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
+    print(f"The length of {fourthAge} is {lengthOfAge} billion years.")
+    time.sleep(1.0)
+    return remainingTime
 
 # Generates events of fifth Primary Age
-def generateFifthAge():
-    pass
+def generateFifthAge(planetGeologicAges, planetAge, lastAgeLength):
+    fifthAge = planetGeologicAges[4]
+    print(f"The fifth age, {fifthAge}, has begun!")
+    planet_lastAge = planetAge - lastAgeLength
+    print(f"The fifth age ranges from {planet_lastAge} billion years ago to present.")
+    time.sleep(1.0)
 
 # End of the Planet's Life
 def endOfPlanet():
     pass
+
+# The Chance of Life roll is for determining when and if life spawns on a planet.
+def chanceOfLifeRoll():
+    return random.uniform(0, 1)
+
+##### LIFE FUNCTIONS #####
 
 # Generates primary species ("player species")
 def generatePrimarySpecies():
@@ -249,7 +305,7 @@ def generateNonDescribedSpecies():
     pass
 
 # Generates random alternate species at given times with random descriptions
-def generateRandomSpecies():
+def generateRandomSpecies(type):
     pass
 
 # Generates extinction events
