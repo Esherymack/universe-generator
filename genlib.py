@@ -195,7 +195,7 @@ def geologicTimeScale(s):
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
 
-# Determines the fates of successful star generations.
+# Determines the fate of a formed landmass.
 def determineLandmassFate():
     chance = random.random()
     if chance <= 0.5:
@@ -215,25 +215,8 @@ def generateFirstAge(planetGeologicAges, planetAge):
     lengthOfAge = round(planetAge / 5, roundPrecision)
     remainingTime = round(planetAge - lengthOfAge, roundPrecision)
     print(f"The length of {firstAge} is {lengthOfAge} billion years.")
-    while(lengthOfAge >= 0):
-        chance = random.randint(0, 1)
-        if chance==1:
-            print("The world is changing.")
-            if determineLandmassFate():
-                continents += random.randint(0, 2)
-                oceans += random.randint(0, 2)
-            else:
-                continents -= continents//random.randint(1,5)
-                oceans -= oceans//random.randint(1,5)
-                if continents <= 0:
-                    continents = 1
-                if oceans <= 0:
-                    oceans = 1
-        else:
-            print("Time passes.")
-            lengthOfAge -= random.uniform(0.0, 1.0)
-        time.sleep(1.0)
-    print(f"{continents} continents formed, and {oceans} oceans formed.")
+    generatePlanetTerrain(lengthOfAge, 1)
+    time.sleep(1.0)
     return remainingTime
 
 # Generates events of second Primary Age
@@ -276,6 +259,29 @@ def generateFifthAge(planetGeologicAges, planetAge, lastAgeLength):
     planet_lastAge = planetAge - lastAgeLength
     print(f"The fifth age ranges from {planet_lastAge} billion years ago to present.")
     time.sleep(1.0)
+
+# generate planet terrain (continents, oceans)
+# weight modifier adjusts tendency towards successful/failed continents/oceans
+def generatePlanetTerrain(lengthOfAge, weight):
+    while(lengthOfAge >= 0):
+        chance = random.randint(0, 1)
+        if chance==1:
+            print("The world is changing.")
+            if determineLandmassFate():
+                continents += random.randint(0, 2) * weight
+                oceans += random.randint(0, 2) * weight
+            else:
+                continents -= continents//random.randint(1,5)
+                oceans -= oceans//random.randint(1,5)
+                if continents <= 0:
+                    continents = 1
+                if oceans <= 0:
+                    oceans = 1
+        else:
+            print("Time passes.")
+            lengthOfAge -= random.uniform(0.0, 1.0)
+        time.sleep(1.0)
+    print(f"{continents} continents formed, and {oceans} oceans formed.")
 
 # End of the Planet's Life
 def endOfPlanet():
