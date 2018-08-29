@@ -83,24 +83,28 @@ def generatePlanetProfile(name, age):
     year_length_days = round(year_length_hours / day_length, roundPrecision)
     print(f"Given that a year is {year_length_hours} hours long, there are {year_length_days} days in a year on {name}.")
     input("\nPress enter to continue...\n")
-    return (year_length_days, day_length)
+    return (year_length_days, day_length, planet_type)
 
 # Runs time on planet from formation to destruction.
-def runTime(yearLength, dayLength, age, name):
+def runTime(yearLength, dayLength, age, name, type_planet):
     counter = 0
     civilDay = int(dayLength)
     planetAge = int(float(age))
-    # let's start basic: there are five main stages in every planet's time scale
+    # let's start basic: there are five main stages in every rocky planet's time scale
+    # every gaseous planet has one stage.
     # each one will have a helper function below because different things can happen in each one.
-    # so first will randomly generate the planet's five primary ages:
-    planetGeologicAges = genlib.generateAgeNames()
-    # next the primary ages are called.
-    firstAgeLength = genlib.generateFirstAge(planetGeologicAges, planetAge)
-
-    secondAgeLength = genlib.generateSecondAge(planetGeologicAges, planetAge, firstAgeLength)
-    thirdAgeLength = genlib.generateThirdAge(planetGeologicAges, planetAge, secondAgeLength)
-    fourthAgeLength = genlib.generateFourthAge(planetGeologicAges, planetAge, thirdAgeLength)
-    genlib.generateFifthAge(planetGeologicAges, planetAge, fourthAgeLength)
+    if type_planet < 0.5:
+        # so first will randomly generate the planet's five primary ages:
+        planetGeologicAges = genlib.generateAgeNames(5)
+        # next the primary ages are called.
+        firstAgeLength = genlib.generateFirstAge(planetGeologicAges, planetAge)
+        secondAgeLength = genlib.generateSecondAge(planetGeologicAges, planetAge, firstAgeLength)
+        thirdAgeLength = genlib.generateThirdAge(planetGeologicAges, planetAge, secondAgeLength)
+        fourthAgeLength = genlib.generateFourthAge(planetGeologicAges, planetAge, thirdAgeLength)
+        genlib.generateFifthAge(planetGeologicAges, planetAge, fourthAgeLength)
+    else:
+        planetGeologicAge = genlib.generateAgeNames(1)
+        genlib.generateGasPlanet(planetGeologicAge, planetAge)
 
 ##### Function Calls Below This Line #####
 # who needs a main function lol
@@ -116,8 +120,8 @@ genlib.filterHabitablePlanets(observed)
 planetName = genlib.nameYourPlanet()
 planetAge = genlib.dateYourPlanet(timePassed, planetName)
 timeCounters = generatePlanetProfile(planetName, planetAge)
-yearLength, dayLength = timeCounters
-runTime(yearLength, dayLength, planetAge, planetName)
+yearLength, dayLength, planetType = timeCounters
+runTime(yearLength, dayLength, planetAge, planetName, planetType)
 
 time.sleep(1.0)
 stopTime = time.strftime("%c")

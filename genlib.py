@@ -16,6 +16,10 @@ vowels = list('aeiou')
 # global round precision
 roundPrecision = 2
 
+# there are always at least 1 continents and 1 oceans
+continents = 1
+oceans = 1
+
 ##### Generation #####
 
 # Determines the fates of successful star generations.
@@ -60,6 +64,13 @@ def dateYourPlanet(eons, planetstr):
     systemName = wordgen.gen_word(random.randint(1, 5), random.randint(1,7))
     planetAge = str(round(random.uniform(0.01, eons), roundPrecision))
     print(f"\nYour planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
+    moons = generateMoons()
+    moonNames = []
+    for i in range(0, moons):
+        moon_name = wordgen.gen_word(random.randint(1, 5), random.randint(1,7))
+        moonNames.append(moon_name)
+    moonList = ', '.join(moonNames)
+    print(f"\n{planetstr} has {moons} moons. They are named: {moonList}")
     return planetAge
 # Determines the length of a year on the planet.
 # Generates time based on distance from home star.
@@ -87,7 +98,7 @@ def generateYearLength():
     # We're also assuming that the planet's mass is negligible compared to the host star (as are most), for ease.
     newtonianGravitationConstant = 6.67e-11
     lengthYearSquared = round(np.sqrt((4*np.pi**2)/(newtonianGravitationConstant*averageMass(starClass))*planet_distance**3), roundPrecision)
-    # For some reason, I did this such that the universe assumes a standard year is 336 days (12 months of exactly 28 days each).
+    # For some reason, I did this such that the universe assumes a "standard year" is 336 days (12 months of exactly 28 days each).
     # This is why I divide by 336 here.
     standardYearLength = 336 # days
     return round(lengthYearSquared/standardYearLength, roundPrecision)
@@ -95,6 +106,10 @@ def generateYearLength():
 # I really didn't want to make up arbitrary mass values, so I'm just randomly generating this
 def generateDayLength():
     return round(random.uniform(5.0, 50.0), roundPrecision)
+# Generate any moons for your planet, if any exist
+def generateMoons():
+    numMoons = random.randint(0, 5)
+    return numMoons
 
 ##### Descriptors and Biomes #####
 
@@ -178,8 +193,7 @@ def getColor(sc):
 
 ##### Planet GTS Ages #####
 # Generates five age names
-def generateAgeNames():
-    numberOfAges = 5
+def generateAgeNames(numberOfAges):
     agesList = []
     for i in range(0, numberOfAges):
         ageStr = wordgen.gen_word(random.randint(1, 5), random.randint(1,7))
@@ -207,15 +221,13 @@ def determineLandmassFate():
 # During the first primary age, there is a very very low chance of life spawning - 0.000001% (here listed as 1e-6)
 # this is because the planet has really just formed.
 def generateFirstAge(planetGeologicAges, planetAge):
-    # there are always at least 1 continents and 1 oceans
-    continents = 1
-    oceans = 1
     firstAge = planetGeologicAges[0]
     print(f"The first age, {firstAge}, has begun!")
     lengthOfAge = round(planetAge / 5, roundPrecision)
     remainingTime = round(planetAge - lengthOfAge, roundPrecision)
     print(f"The length of {firstAge} is {lengthOfAge} billion years.")
-    generatePlanetTerrain(lengthOfAge, 1)
+    generatePlanetTerrain(lengthOfAge, 3)
+    chanceOfLifeRoll(1e-6)
     time.sleep(1.0)
     return remainingTime
 
@@ -227,6 +239,7 @@ def generateSecondAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 4, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {secondAge} is {lengthOfAge} billion years.")
+    generatePlanetTerrain(lengthOfAge, 2)
     time.sleep(1.0)
     return remainingTime
 
@@ -238,6 +251,7 @@ def generateThirdAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 3, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {thirdAge} is {lengthOfAge} billion years.")
+    generatePlanetTerrain(lengthOfAge, 2)
     time.sleep(1.0)
     return remainingTime
 
@@ -249,6 +263,7 @@ def generateFourthAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 2, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {fourthAge} is {lengthOfAge} billion years.")
+    generatePlanetTerrain(lengthOfAge, 1)
     time.sleep(1.0)
     return remainingTime
 
@@ -258,25 +273,30 @@ def generateFifthAge(planetGeologicAges, planetAge, lastAgeLength):
     print(f"The fifth age, {fifthAge}, has begun!")
     planet_lastAge = planetAge - lastAgeLength
     print(f"The fifth age ranges from {planet_lastAge} billion years ago to present.")
+    generatePlanetTerrain(planet_lastAge, 0)
+    time.sleep(1.0)
+
+# alternate func for generating a gas planet's timescale
+def generateGasPlanet(planetGeologicAge, planetAge):
+    gtsAge = planetGeologicAge[0]
+    print(f"The age of {gtsAge} has begun!")
     time.sleep(1.0)
 
 # generate planet terrain (continents, oceans)
 # weight modifier adjusts tendency towards successful/failed continents/oceans
 def generatePlanetTerrain(lengthOfAge, weight):
+    global continents
+    global oceans
     while(lengthOfAge >= 0):
-        chance = random.randint(0, 1)
+        chance = random.randint(0, 2)
         if chance==1:
             print("The world is changing.")
             if determineLandmassFate():
                 continents += random.randint(0, 2) * weight
                 oceans += random.randint(0, 2) * weight
             else:
-                continents -= continents//random.randint(1,5)
-                oceans -= oceans//random.randint(1,5)
-                if continents <= 0:
-                    continents = 1
-                if oceans <= 0:
-                    oceans = 1
+                continents -= continents // 2 * weight
+                oceans -= continents // 2 * weight
         else:
             print("Time passes.")
             lengthOfAge -= random.uniform(0.0, 1.0)
@@ -288,8 +308,8 @@ def endOfPlanet():
     pass
 
 # The Chance of Life roll is for determining when and if life spawns on a planet.
-def chanceOfLifeRoll():
-    return random.uniform(0, 1)
+def chanceOfLifeRoll(weight):
+    return random.uniform(0, 1) * weight
 
 ##### LIFE FUNCTIONS #####
 
