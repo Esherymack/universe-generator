@@ -96,6 +96,7 @@ def runTime(yearLength, dayLength, age, name):
     planetGeologicAges = genlib.generateAgeNames()
     # next the primary ages are called.
     firstAgeLength = genlib.generateFirstAge(planetGeologicAges, planetAge)
+
     secondAgeLength = genlib.generateSecondAge(planetGeologicAges, planetAge, firstAgeLength)
     thirdAgeLength = genlib.generateThirdAge(planetGeologicAges, planetAge, secondAgeLength)
     fourthAgeLength = genlib.generateFourthAge(planetGeologicAges, planetAge, thirdAgeLength)

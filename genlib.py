@@ -194,6 +194,15 @@ def geologicTimeScale(s):
         'Period' : f"The period of {timeString} has begun!",
         'Epoch'  : f"The epoch of {timeString} has begun!"
     }[s]
+
+# Determines the fates of successful star generations.
+def determineLandmassFate():
+    chance = random.random()
+    if chance <= 0.5:
+        return False
+    else:
+        return True
+
 # Generates events of first Primary Age
 # During the first primary age, there is a very very low chance of life spawning - 0.000001% (here listed as 1e-6)
 # this is because the planet has really just formed.
@@ -206,21 +215,25 @@ def generateFirstAge(planetGeologicAges, planetAge):
     lengthOfAge = round(planetAge / 5, roundPrecision)
     remainingTime = round(planetAge - lengthOfAge, roundPrecision)
     print(f"The length of {firstAge} is {lengthOfAge} billion years.")
-    while lengthOfAge > 0.0:
-        if(chanceOfLifeRoll() <= 1e-6):
-            print("Primitive life spawned!")
-            generateRandomSpecies("primitive")
-        timePasses = random.randint(0, 1)
-        if timePasses == 0:
+    while(lengthOfAge >= 0):
+        chance = random.randint(0, 1)
+        if chance==1:
+            print("The world is changing.")
+            if determineLandmassFate():
+                continents += random.randint(0, 2)
+                oceans += random.randint(0, 2)
+            else:
+                continents -= continents//random.randint(1,5)
+                oceans -= oceans//random.randint(1,5)
+                if continents <= 0:
+                    continents = 1
+                if oceans <= 0:
+                    oceans = 1
+        else:
             print("Time passes.")
-            lengthOfAge -= lengthOfAge - random.uniform(0, lengthOfAge)
-        if timePasses == 1:
-            print("The world shifts.")
-            continents += 1
-            oceans += 1
+            lengthOfAge -= random.uniform(0.0, 1.0)
         time.sleep(1.0)
-    print(f"Total Continents Formed: {continents}.")
-    print(f"Total Oceans Formed: {oceans}.")
+    print(f"{continents} continents formed, and {oceans} oceans formed.")
     return remainingTime
 
 # Generates events of second Primary Age
