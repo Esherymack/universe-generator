@@ -111,6 +111,38 @@ def generateMoons():
     numMoons = random.randint(0, 5)
     return numMoons
 
+# Generates elements present in the planet. Element names are randomly generated; generates 100-200 elements.
+# TODO : Allow menus during generation
+# ## TODO : This chart may be accessed at any time with command :ptable ##
+# Currently saves elements to external list, "elements.dat"
+def generateElements():
+    numElts = random.randint(100,200)
+    f = open('elements.dat', 'w')
+    for i in range(0, numElts):
+        en = wordgen.gen_word(random.randint(1, 6), random.randint(1, 6))
+        # if a generated word is longer than 5, then it gets the suffix "-ium" appended to the end.
+        if len(en) > 5:
+            en = en + "ium\n"
+        # otherwise it stays as it is.
+        else:
+            en = en + "\n"
+        f.write(en)
+    f.close()
+# Generates the atmosphere content of a planet.
+# Must be composed of gasses.
+def generateAtmosphere():
+    pass
+
+# Generates land or plasma elemental construction of planet.
+# May be composed of anything.
+def generateLandElements():
+    pass
+
+# Generates elements necessary for life on the planet.
+# May be composed of anything within the first 26 elements
+def generateNecessaryForLife():
+    pass
+
 ##### Descriptors and Biomes #####
 
 # Determines the number and kinds of biomes the planet has.
@@ -301,7 +333,7 @@ def generatePlanetTerrain(lengthOfAge, weight):
             print("Time passes.")
             lengthOfAge -= random.uniform(0.0, 1.0)
         time.sleep(1.0)
-    print(f"{continents} continents formed, and {oceans} oceans formed.")
+    print(f"{continents} continents exist, and {oceans} oceans exist.")
 
 # End of the Planet's Life
 def endOfPlanet():
@@ -312,6 +344,10 @@ def chanceOfLifeRoll(weight):
     return random.uniform(0, 1) * weight
 
 ##### LIFE FUNCTIONS #####
+
+# Generates primary element of life on planet (Carbon or Silicon)
+def generateLifeCtor():
+    pass
 
 # Generates primary species ("player species")
 def generatePrimarySpecies():

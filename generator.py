@@ -67,6 +67,7 @@ def spawnSystems():
 def generatePlanetProfile(name, age):
     print(f"\nPlanet name is {name}.")
     print(f"Planet age is {age} billion years.")
+    genlib.generateElements()
     description = genlib.getLandDescriptor()
     description = ', '.join(description)
     planet_type = random.random()
