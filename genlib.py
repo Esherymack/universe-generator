@@ -149,20 +149,27 @@ def generateElements():
         # otherwise it stays as it is.
         # this has no real science behind it, it's just for fun.
         f.write(en)
-    print("{numElts} elements generated.")
+    print(f"{numElts} elements generated.")
     f.close()
 # Generates the atmosphere content of a planet.
 # Must be composed of gasses.
+###     Random floating point number between 75 and 78 goes to primary element -
+###     unless element is only element comprising an atmosphere.
+###     If B, 20-21% of atmosphere is delegated to element B.
+###     Any further elements are denoted as "trace elements"
 def generateAtmosphere():
     pass
 
 # Generates land or plasma elemental construction of planet.
 # May be composed of anything.
+###     A rocky planet has five primary elements making up its landmasses
+###     A gaseous planet has two primary elements making up its plasma ocean.
 def generateLandElements():
     pass
-
 # Generates elements necessary for life on the planet.
-# May be composed of anything within the first 26 elements
+# May be composed of anything.
+###     There are 11 primary elements necessary for life.
+###     There are 22 trace elements necessary for life.
 def generateNecessaryForLife():
     pass
 
@@ -197,6 +204,9 @@ def getLandDescriptor():
         return_descriptor = adjectivesList.pop(descriptor)
         description_list.append(return_descriptor)
     adjectives.close()
+    weather = open('weather.dat').read().splitlines()
+    weather_desc = random.choice(weather)
+    print(f"The weather of is {weather_desc}.")
     return description_list
 # Retrieve descriptive adjective for creature
 def getCreatureDescriptor():
