@@ -115,18 +115,41 @@ def generateMoons():
 # TODO : Allow menus during generation
 # ## TODO : This chart may be accessed at any time with command :ptable ##
 # Currently saves elements to external list, "elements.dat"
+
+### Division of Elements ###
+###     The elements present in the generated universe are distributed through states and types similarly to
+###     how they are on Earth. This means to say, that there are 11 (effectively, 10, if you're the type to
+###     exclude unknown elements) types of element and they are divided up as follows:
+###             5.9% are in class 0 ("noble gasses")
+###             5.9% are in class 1 ("nonmetals")
+###             5.1% are in class 2 ("alkali metals")
+###             5.1% are in class 3 ("alkaline earth metals")
+###             29.7% are in class 4 ("transition metals")
+###             7% are in class 5 ("post-transition metals")
+###             5.1% are in class 6 ("metalloids")
+###             4.24% are in class 7 ("halogens")
+###             13% are in class 8 ("lanthanides")
+###             13% are in class 9 ("actinides")
+###             7% are in class 10 and comprise the "unknown" elements in the universe.
+###
+###    Additionally dividing the elements:
+###             76.3% exist in a solid state under normal conditions
+###             1.7% exist in a liquid state under normal conditions
+###             10.2% exist in a gaseous state under normal conditions
+###             A further 11.86% exist in an uknown state under normal conditions.
 def generateElements():
+    # generate the elements - random integer between 100 and 200
     numElts = random.randint(100,200)
     f = open('elements.dat', 'w')
     for i in range(0, numElts):
         en = wordgen.gen_word(random.randint(1, 6), random.randint(1, 6))
         # if a generated word is longer than 5, then it gets the suffix "-ium" appended to the end.
         if len(en) > 5:
-            en = en + "ium\n"
+            en = en + "ium"
         # otherwise it stays as it is.
-        else:
-            en = en + "\n"
+        # this has no real science behind it, it's just for fun.
         f.write(en)
+    print("{numElts} elements generated.")
     f.close()
 # Generates the atmosphere content of a planet.
 # Must be composed of gasses.
