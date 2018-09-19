@@ -13,6 +13,7 @@ import numpy as np
 
 import log_script
 import genlib
+import ansi_color as ac
 import wordgen
 
 # global round precision

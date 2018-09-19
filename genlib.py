@@ -8,6 +8,7 @@ import sys
 import numpy as np
 
 import wordgen
+import ansi_color as ac
 
 ##### Globals #####
 
@@ -149,8 +150,24 @@ def generateElements():
         # otherwise it stays as it is.
         # this has no real science behind it, it's just for fun.
         f.write(en)
-    print(f"{numElts} elements generated.")
+    print(f"\n{numElts} elements generated.")
+    print("These elements are broken down into: ")
+    eltType = []
+    for i in range(0, 10):
+        et = wordgen.gen_word(random.randint(1,4), random.randint(1,6))
+        print(f"{et}s, ")
+        eltType.append(et)
+    numSolids = int((numElts * 76.3) // 100)
+    print(f"{numSolids} elements exist in a solid state under normal conditions.")
+    numLiquids = int((numElts * 1.7) // 100)
+    print(f"{numLiquids} elements exist in a liquid state under normal conditions.")
+    numGasses = int((numElts * 10.2) // 100)
+    print(f"{numGasses} elements exist in a gaseous state under normal conditions.")
+    numUn = int((numElts * 11.86) // 100)
+    print(f"{numUn} elements exist in an unknown state under normal conditions.")
     f.close()
+    print("\n")
+
 # Generates the atmosphere content of a planet.
 # Must be composed of gasses.
 ###     Random floating point number between 75 and 78 goes to primary element -
@@ -206,7 +223,7 @@ def getLandDescriptor():
     adjectives.close()
     weather = open('weather.dat').read().splitlines()
     weather_desc = random.choice(weather)
-    print(f"The weather of is {weather_desc}.")
+    print(f"The weather is {weather_desc}.")
     return description_list
 # Retrieve descriptive adjective for creature
 def getCreatureDescriptor():
