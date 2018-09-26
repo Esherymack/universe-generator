@@ -33,7 +33,7 @@ def spawnSystems():
         # The reasoning behind this allows for more time to build up for a more realistic time scale.
         chance = random.randint(1, 3)
         if chance == 1:
-            print("Star cluster spawned!")
+            print(ac.sgr_0blue + "Star cluster spawned!" + ac.sgr_reset)
             if genlib.determineFate():
                 # if the stars survive, then increase by a power 1 through 4, randomly
                 stars += stars**random.randint(1,4)
@@ -55,10 +55,10 @@ def spawnSystems():
                 print(f"Billions of years past: {timepassed}")
                 break
         elif chance == 2:
-            print("Nebulae formed!")
+            print(ac.sgr_0blue + "Nebulae formed!" + ac.sgr_reset)
             nebula += 1
         else:
-            print("Nothing happened...")
+            print(ac.sgr_0white + "Nothing happened..." + ac.sgr_reset)
             timepassed += random.uniform(1.0, 2.0)
         time.sleep(1)
     # i really didn't want to return a tuple, i swear
@@ -130,5 +130,5 @@ stopTime = time.strftime("%c")
 print(f"\nSimulation ended at : {stopTime}")
 time.sleep(1.0)
 
-print(f"\nAnd all was silent.\n")
+print("\nAnd all was silent.\n")
 time.sleep(2.0)

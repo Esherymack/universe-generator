@@ -12,8 +12,6 @@ import ansi_color as ac
 
 ##### Globals #####
 
-# global vowel list for some reason
-vowels = list('aeiou')
 # global round precision
 roundPrecision = 2
 
@@ -27,10 +25,10 @@ oceans = 1
 def determineFate():
     chance = random.random()
     if chance <= 0.5:
-        print("Star cluster failed!")
+        print(ac.sgr_1red + "Star cluster failed!" + ac.sgr_reset)
         return False
     else:
-        print("Star cluster survived!")
+        print(ac.sgr_1green + "Star cluster survived!" + ac.sgr_reset)
         return True
 
 ##### Observable Universe #####
@@ -66,12 +64,13 @@ def dateYourPlanet(eons, planetstr):
     planetAge = str(round(random.uniform(0.01, eons), roundPrecision))
     print(f"\nYour planet, {planetstr}, formed roughly {planetAge} billion years ago in the cluster named {systemName}.")
     moons = generateMoons()
-    moonNames = []
-    for i in range(0, moons):
-        moon_name = wordgen.gen_word(random.randint(1, 5), random.randint(1,7))
-        moonNames.append(moon_name)
-    moonList = ', '.join(moonNames)
-    print(f"\n{planetstr} has {moons} moons. They are named: {moonList}")
+    if moons > 0:
+        moonNames = []
+        for i in range(0, moons):
+            moon_name = wordgen.gen_word(random.randint(1, 5), random.randint(1,7))
+            moonNames.append(moon_name)
+        moonList = ', '.join(moonNames)
+        print(f"\n{planetstr} has {moons} moons. They are named: {moonList}")
     return planetAge
 # Determines the length of a year on the planet.
 # Generates time based on distance from home star.
@@ -146,8 +145,10 @@ def generateElements():
         en = wordgen.gen_word(random.randint(1, 6), random.randint(1, 6))
         # if a generated word is longer than 5, then it gets the suffix "-ium" appended to the end.
         if len(en) > 5:
-            en = en + "ium"
+            en = en + "ium\n"
         # otherwise it stays as it is.
+        else:
+            en = en + "\n"
         # this has no real science behind it, it's just for fun.
         f.write(en)
     print(f"\n{numElts} elements generated.")
@@ -167,7 +168,6 @@ def generateElements():
     print(f"{numUn} elements exist in an unknown state under normal conditions.")
     f.close()
     print("\n")
-
 # Generates the atmosphere content of a planet.
 # Must be composed of gasses.
 ###     Random floating point number between 75 and 78 goes to primary element -

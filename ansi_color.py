@@ -1,5 +1,12 @@
 ### ANSI color escape codes for use with AAWQ
 
+## 0 prefaced codes are default colours
+## 1 prefaced codes are bold colours
+## 2 prefaced codes are light colours
+## 3 prefaced codes are italic colours
+## 4 prefaced codes are underlined colours
+## 5, 6, and 7 have backgrounds.
+
 ##### Regular Colours #####
 ## black
 sgr_0black = "\x1b[0;30;40m"
@@ -74,7 +81,6 @@ sgr_5white = "\x1b[5;37;40m"
 sgr_6white = "\x1b[6;37;40m"
 sgr_7white = "\x1b[7;37;40m"
 
-### Backgrounds ###
-
 ##### Reset #####
+## Call Reset after every string calling a colour - otherwise color persists. ##
 sgr_reset = "\x1b[0m"
