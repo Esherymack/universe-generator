@@ -308,8 +308,10 @@ def generateFirstAge(planetGeologicAges, planetAge):
     lengthOfAge = round(planetAge / 5, roundPrecision)
     remainingTime = round(planetAge - lengthOfAge, roundPrecision)
     print(f"The length of {firstAge} is {lengthOfAge} billion years.")
+    ## Life has a very low chance of spawning in first age.
+    chanceLife = chanceOfLifeRoll(1e-6)
+    print(f"The chance of life forming is {chanceLife}%.")
     generatePlanetTerrain(lengthOfAge, 3)
-    chanceOfLifeRoll(1e-6)
     time.sleep(1.0)
     return remainingTime
 
@@ -321,7 +323,9 @@ def generateSecondAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 4, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {secondAge} is {lengthOfAge} billion years.")
-    generatePlanetTerrain(lengthOfAge, 2)
+    chanceLife = chanceOfLifeRoll(1)
+    print(f"The chance of life forming is {chanceLife}%.")
+    generatePlanetTerrain(lengthOfAge, 100)
     time.sleep(1.0)
     return remainingTime
 
@@ -333,7 +337,9 @@ def generateThirdAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 3, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {thirdAge} is {lengthOfAge} billion years.")
-    generatePlanetTerrain(lengthOfAge, 2)
+    chanceLife = chanceOfLifeRoll(2)
+    print(f"The chance of life forming is {chanceLife}%.")
+    generatePlanetTerrain(lengthOfAge, 200)
     time.sleep(1.0)
     return remainingTime
 
@@ -345,6 +351,8 @@ def generateFourthAge(planetGeologicAges, planetAge, lastAgeLength):
     lengthOfAge = round(planet_newAge / 2, roundPrecision)
     remainingTime = round(planet_newAge - lengthOfAge, roundPrecision)
     print(f"The length of {fourthAge} is {lengthOfAge} billion years.")
+    chanceLife = chanceOfLifeRoll(0.5)
+    print(f"The chance of life forming is {chanceLife}%.")
     generatePlanetTerrain(lengthOfAge, 1)
     time.sleep(1.0)
     return remainingTime
@@ -355,6 +363,8 @@ def generateFifthAge(planetGeologicAges, planetAge, lastAgeLength):
     print(f"The fifth age, {fifthAge}, has begun!")
     planet_lastAge = planetAge - lastAgeLength
     print(f"The fifth age ranges from {planet_lastAge} billion years ago to present.")
+    chanceLife = chanceOfLifeRoll(0)
+    print(f"The chance of life forming is {chanceLife}%.")
     generatePlanetTerrain(planet_lastAge, 0)
     time.sleep(1.0)
 
@@ -362,6 +372,8 @@ def generateFifthAge(planetGeologicAges, planetAge, lastAgeLength):
 def generateGasPlanet(planetGeologicAge, planetAge):
     gtsAge = planetGeologicAge[0]
     print(f"The age of {gtsAge} has begun!")
+    chanceLife = chanceOfLifeRoll(100)
+    print(f"The chance of life forming is {chanceLife}%.")
     time.sleep(1.0)
 
 # generate planet terrain (continents, oceans)
