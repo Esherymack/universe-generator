@@ -388,7 +388,12 @@ def generatePlanetTerrain(lengthOfAge, weight):
 # End of the Planet's Life
 def endOfPlanet(planetName):
     print(f"As all great things must come to pass, so too must this great planet, {planetName}, cease to exist.")
-    
+    disasters = open('disaster.dat')
+    disasterList = disasters.read().splitlines()
+    size = len(disasterList)
+    which = random.randint(0, size)
+    pick = disasterList[which]
+    print(f"The world ends due to {pick}.")
 
 
 # The Chance of Life roll is for determining when and if life spawns on a planet.
