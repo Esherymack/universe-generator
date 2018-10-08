@@ -2,8 +2,6 @@
 # a product of infinite boredom.
 # "And All Was Quiet."
 
-# TODO: Figure out ANSI text colors in Python.
-
 # library imports
 import random
 import string
@@ -104,9 +102,11 @@ def runTime(yearLength, dayLength, age, name, type_planet):
         thirdAgeLength = genlib.generateThirdAge(planetGeologicAges, planetAge, secondAgeLength)
         fourthAgeLength = genlib.generateFourthAge(planetGeologicAges, planetAge, thirdAgeLength)
         genlib.generateFifthAge(planetGeologicAges, planetAge, fourthAgeLength)
+        genlib.endOfPlanet(planetName)
     else:
         planetGeologicAge = genlib.generateAgeNames(1)
         genlib.generateGasPlanet(planetGeologicAge, planetAge)
+        genlib.endOfPlanet(planetName)
 
 ##### Function Calls Below This Line #####
 # who needs a main function lol

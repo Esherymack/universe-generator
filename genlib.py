@@ -374,7 +374,7 @@ def generatePlanetTerrain(lengthOfAge, weight):
         if chance==1:
             print("The world is changing.")
             if determineLandmassFate():
-                continents += random.randint(0, 2) * weight
+                continents += random.randint(1, 4) * weight
                 oceans += random.randint(0, 2) * weight
             else:
                 continents -= continents // 2 * weight
@@ -386,8 +386,10 @@ def generatePlanetTerrain(lengthOfAge, weight):
     print(f"{continents} continents exist, and {oceans} oceans exist.")
 
 # End of the Planet's Life
-def endOfPlanet():
-    pass
+def endOfPlanet(planetName):
+    print(f"As all great things must come to pass, so too must this great planet, {planetName}, cease to exist.")
+    
+
 
 # The Chance of Life roll is for determining when and if life spawns on a planet.
 def chanceOfLifeRoll(weight):
@@ -395,9 +397,17 @@ def chanceOfLifeRoll(weight):
 
 ##### LIFE FUNCTIONS #####
 
-# Generates primary element of life on planet (Carbon or Silicon)
+# Generates primary element of life on planet (Carbon (elt 6) or Silicon (elt 16))
 def generateLifeCtor():
-    pass
+    e = open('elements.dat')
+    eList = e.read().splitlines()
+    carbonEquiv = eList[5]
+    siliconEquiv = eList[15]
+    decider = random.randint(0, 1)
+    if decider == 0:
+        return carbonEquiv
+    else:
+        return siliconEquiv
 
 # Generates primary species ("player species")
 def generatePrimarySpecies():
