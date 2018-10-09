@@ -11,9 +11,9 @@ Universe-Generator (properly named "And All Was Silent") is a naive universe gen
 
 #### **Included Libraries**
 * log_script - Script to output log file as well as print to console. Source is in comments.
-* genlib - Helper functions. Mostly created to divide up the many hundreds of lines of helper functions I originally had.
+* genlib - Helper functions. Mostly created to divide up the many hundreds of lines of helper functions I originally had. The point now seems moot, because genlib is getting near 500 lines long and will not stop growing in the forseeable future.
 * wordgen - Script to randomly generate words. Source is in comments.
-* ansi_color - Helper to use ANSI color codes. 
+* ansi_color - Helper to use ANSI color codes.
 
 ### Usage
 
